@@ -1,11 +1,16 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
 
     <title>MD Décor & Plafonds | Faux plafonds & Décoration au Sénégal</title>
 
@@ -25,7 +30,7 @@
 
         /* =========================
            RESET
-        ========================= */
+        ========================== */
 
         * {
             margin: 0;
@@ -63,7 +68,7 @@
 
         /* =========================
            VARIABLES
-        ========================= */
+        ========================== */
 
         :root {
             --dark: #111827;
@@ -80,7 +85,7 @@
 
         /* =========================
            HEADER
-        ========================= */
+        ========================== */
 
         header {
             position: sticky;
@@ -95,7 +100,6 @@
             max-width: 1200px;
             margin: auto;
             padding: 16px 20px;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -103,15 +107,21 @@
         }
 
         .logo {
-            color: white;
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
+               display: flex;
+               align-items: center;
+               text-decoration: none;
+               height: 58px;
+}
+
+        .logo img {
+               height: 52px;
+               width: auto;
+               display: block;
+               object-fit: contain;
         }
 
         .logo span {
-            color: var(--gold);
+               color: var(--gold);
         }
 
         nav {
@@ -160,18 +170,15 @@
 
         /* =========================
            HERO
-        ========================= */
+        ========================== */
 
         .hero {
             min-height: 88vh;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             text-align: center;
             color: white;
-
             position: relative;
 
             background:
@@ -219,25 +226,19 @@
 
         /* =========================
            BUTTONS
-        ========================= */
+        ========================== */
 
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-
             padding: 13px 22px;
-
             border-radius: 8px;
-
             background: var(--gold);
             color: var(--dark);
-
             border: 2px solid var(--gold);
-
             font-weight: 700;
             cursor: pointer;
-
             transition:
                 transform 0.25s ease,
                 background 0.25s ease,
@@ -266,7 +267,7 @@
 
         /* =========================
            GENERAL SECTIONS
-        ========================= */
+        ========================== */
 
         section {
             scroll-margin-top: 85px;
@@ -309,7 +310,7 @@
 
         /* =========================
            À PROPOS
-        ========================= */
+        ========================== */
 
         .about-grid {
             display: grid;
@@ -361,7 +362,7 @@
 
         /* =========================
            POURQUOI NOUS
-        ========================= */
+        ========================== */
 
         .why-grid {
             display: grid;
@@ -374,9 +375,7 @@
             padding: 30px 22px;
             border-radius: 14px;
             text-align: center;
-
             border: 1px solid var(--border);
-
             transition:
                 transform 0.3s ease,
                 box-shadow 0.3s ease;
@@ -391,16 +390,12 @@
             width: 65px;
             height: 65px;
             margin: 0 auto 20px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             border-radius: 50%;
-
             background: #fff8df;
             color: var(--gold);
-
             font-size: 30px;
         }
 
@@ -417,7 +412,7 @@
 
         /* =========================
            SERVICES
-        ========================= */
+        ========================== */
 
         .services-grid {
             display: grid;
@@ -430,7 +425,6 @@
             border-radius: 14px;
             background: white;
             border: 1px solid var(--border);
-
             transition: 0.3s;
         }
 
@@ -458,7 +452,7 @@
 
         /* =========================
            RÉALISATIONS
-        ========================= */
+        ========================== */
 
         .gallery {
             display: grid;
@@ -479,7 +473,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-
             transition: transform 0.5s ease;
         }
 
@@ -489,22 +482,16 @@
 
         .gallery-item::after {
             content: "🔍 Agrandir";
-
             position: absolute;
             left: 50%;
             top: 50%;
-
             transform: translate(-50%, -50%) scale(0.8);
-
             background: rgba(17, 24, 39, 0.82);
             color: white;
-
             padding: 10px 16px;
             border-radius: 30px;
-
             opacity: 0;
             transition: 0.3s;
-
             font-size: 14px;
             font-weight: bold;
         }
@@ -517,7 +504,7 @@
 
         /* =========================
            CTA
-        ========================= */
+        ========================== */
 
         .cta-section {
             background:
@@ -525,7 +512,6 @@
                     rgba(17, 24, 39, 0.94),
                     rgba(17, 24, 39, 0.94)
                 );
-
             color: white;
             padding: 65px 20px;
         }
@@ -533,11 +519,9 @@
         .cta-box {
             max-width: 1050px;
             margin: auto;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             gap: 35px;
         }
 
@@ -591,20 +575,16 @@
 
         /* =========================
            LIGHTBOX
-        ========================= */
+        ========================== */
 
         .lightbox {
             position: fixed;
             inset: 0;
-
             background: rgba(0, 0, 0, 0.93);
-
             z-index: 5000;
-
             display: none;
             align-items: center;
             justify-content: center;
-
             padding: 30px;
         }
 
@@ -615,9 +595,7 @@
         .lightbox img {
             max-width: 90vw;
             max-height: 85vh;
-
             object-fit: contain;
-
             border-radius: 8px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
@@ -626,23 +604,17 @@
         .lightbox-prev,
         .lightbox-next {
             position: absolute;
-
             width: 50px;
             height: 50px;
-
             border: none;
             border-radius: 50%;
-
             background: rgba(255, 255, 255, 0.15);
             color: white;
-
             font-size: 28px;
             cursor: pointer;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             transition: 0.25s;
         }
 
@@ -672,20 +644,15 @@
 
         /* =========================
            DEVIS
-        ========================= */
+        ========================== */
 
         .quote-wrapper {
             max-width: 850px;
             margin: auto;
-
             background: white;
-
             padding: 40px;
-
             border-radius: 18px;
-
             box-shadow: 0 15px 45px rgba(0, 0, 0, 0.10);
-
             border: 1px solid var(--border);
         }
 
@@ -714,16 +681,11 @@
         .form-group select,
         .form-group textarea {
             width: 100%;
-
             border: 1px solid #d1d5db;
             border-radius: 8px;
-
             padding: 13px 14px;
-
             outline: none;
-
             background: white;
-
             transition: 0.25s;
         }
 
@@ -749,7 +711,7 @@
 
         /* =========================
            CONTACT
-        ========================= */
+        ========================== */
 
         .contact-grid {
             display: grid;
@@ -761,10 +723,8 @@
             text-align: center;
             background: white;
             padding: 35px 20px;
-
             border: 1px solid var(--border);
             border-radius: 14px;
-
             transition: 0.3s;
         }
 
@@ -795,7 +755,7 @@
 
         /* =========================
            FOOTER
-        ========================= */
+        ========================== */
 
         footer {
             background: #0b1120;
@@ -806,11 +766,9 @@
         .footer-container {
             max-width: 1150px;
             margin: auto;
-
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             gap: 20px;
         }
 
@@ -832,31 +790,22 @@
 
         /* =========================
            WHATSAPP FLOAT
-        ========================= */
+        ========================== */
 
         .whatsapp-float {
             position: fixed;
-
             right: 22px;
             bottom: 22px;
-
             z-index: 2999;
-
             display: flex;
             align-items: center;
             gap: 10px;
-
             background: var(--green);
             color: white;
-
             padding: 14px 20px;
-
             border-radius: 50px;
-
             font-weight: bold;
-
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-
             transition: 0.3s;
         }
 
@@ -872,13 +821,14 @@
 
         /* =========================
            ANIMATIONS
-        ========================= */
+        ========================== */
 
         .fade-up {
             animation: fadeUp 0.8s ease both;
         }
 
         @keyframes fadeUp {
+
             from {
                 opacity: 0;
                 transform: translateY(25px);
@@ -888,12 +838,13 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+
         }
 
 
         /* =========================
            TABLET
-        ========================= */
+        ========================== */
 
         @media (max-width: 950px) {
 
@@ -918,12 +869,13 @@
             .cta-buttons {
                 justify-content: center;
             }
+
         }
 
 
         /* =========================
            MOBILE
-        ========================= */
+        ========================== */
 
         @media (max-width: 700px) {
 
@@ -937,22 +889,15 @@
 
             nav {
                 display: none;
-
                 position: absolute;
-
                 top: calc(100% + 14px);
                 left: -18px;
                 right: -18px;
-
                 background: var(--dark);
-
                 padding: 20px;
-
                 flex-direction: column;
                 align-items: stretch;
-
                 gap: 0;
-
                 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
             }
 
@@ -1097,9 +1042,11 @@
             .footer-copy {
                 text-align: center;
             }
+
         }
 
     </style>
+
 </head>
 
 
@@ -1114,9 +1061,12 @@
 
         <div class="header-container">
 
-            <a href="#accueil" class="logo">
-                MD <span>Décor & Plafonds</span>
-            </a>
+<a href="#accueil" class="logo">
+    <img
+        src="{% static 'images/logo-md-decor.png' %}"
+        alt="MD Décor & Plafonds"
+    >
+ </a>
 
             <button
                 class="menu-toggle"
@@ -1130,17 +1080,11 @@
             <nav id="mainNav">
 
                 <a href="#accueil">Accueil</a>
-
                 <a href="#apropos">À propos</a>
-
                 <a href="#pourquoi">Pourquoi nous ?</a>
-
                 <a href="#services">Services</a>
-
                 <a href="#realisations">Réalisations</a>
-
                 <a href="#devis">Devis</a>
-
                 <a href="#contact">Contact</a>
 
             </nav>
@@ -1227,11 +1171,8 @@
                     <ul class="about-list">
 
                         <li>Faux plafonds modernes</li>
-
                         <li>Éclairage LED intégré</li>
-
                         <li>Décoration intérieure</li>
-
                         <li>Finitions soignées</li>
 
                     </ul>
@@ -1561,7 +1502,7 @@
             <div class="cta-buttons">
 
                 <a
-                    href="https://wa.me/221768463146?text=Bonjour%20MD%20D%C3%A9cor%20%26%20Plafonds%2C%20je%20souhaite%20discuter%20de%20mon%20projet."
+                    href="https://wa.me/221768463146?text=Bonjour%20MD%20Décor%20%26%20Plafonds%2C%20je%20souhaite%20discuter%20de%20mon%20projet"
                     class="btn btn-whatsapp"
                     target="_blank"
                     rel="noopener"
@@ -1870,8 +1811,10 @@
             </div>
 
             <div class="footer-copy">
+
                 © <span id="currentYear"></span>
                 MD Décor & Plafonds — Tous droits réservés.
+
             </div>
 
         </div>
@@ -1884,7 +1827,7 @@
     ========================== -->
 
     <a
-        href="https://wa.me/221768463146?text=Bonjour%20MD%20D%C3%A9cor%20%26%20Plafonds%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20un%20projet%20de%20faux%20plafond."
+        href="https://wa.me/221768463146?text=Bonjour%20MD%20Décor%20%26%20Plafonds%2C%20je%20souhaite%20obtenir%20un%20devis%20pour%20un%20projet%20de%20faux%20plafond"
         class="whatsapp-float"
         target="_blank"
         rel="noopener"
@@ -2033,8 +1976,10 @@
             currentImage--;
 
             if (currentImage < 0) {
+
                 currentImage =
                     galleryImages.length - 1;
+
             }
 
             document.getElementById(
@@ -2142,12 +2087,10 @@
                 "%0A%0A" +
 
                 "*Description du projet :*%0A" +
-
                 encodeURIComponent(message);
 
 
             const whatsappURL =
-
                 "https://wa.me/221768463146?text=" +
                 whatsappMessage;
 
@@ -2173,4 +2116,5 @@
 
 
 </body>
+
 </html>
