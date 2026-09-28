@@ -6,3 +6,6 @@ db.sqlite3
 .env
 config/settings_backup.py
 staticfiles/
+core/templates/home-backup.html
+
+media/

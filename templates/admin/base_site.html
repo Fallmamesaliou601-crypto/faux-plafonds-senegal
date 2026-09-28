@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+
+{% block title %}MD Décor & Plafonds — Administration{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        🏠 MD Décor & Plafonds
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+<div style="
+    padding: 10px 20px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+">
+    <a href="{% url 'tableau_de_bord' %}"
+       style="
+           display: inline-block;
+           padding: 9px 15px;
+           background: #417690;
+           color: white;
+           text-decoration: none;
+           border-radius: 7px;
+           font-weight: 600;
+       ">
+        📊 Tableau de bord
+    </a>
+</div>
+{% endblock %}

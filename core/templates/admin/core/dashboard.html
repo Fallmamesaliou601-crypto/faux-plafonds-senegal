@@ -1,0 +1,264 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Tableau de bord — MD Décor & Plafonds{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<style>
+.dashboard {
+    padding: 20px 0;
+}
+
+.dashboard h1 {
+    margin-bottom: 8px;
+}
+
+.dashboard-intro {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.stat-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.stat-title {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.stat-detail {
+    margin-top: 8px;
+    color: #777;
+    font-size: 13px;
+}
+
+.dashboard-section {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 25px;
+}
+
+.dashboard-section h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.dashboard-table th {
+    color: #555;
+    font-size: 13px;
+}
+
+.dashboard-table td {
+    font-size: 14px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 20px;
+    background: #eee;
+    font-size: 12px;
+}
+
+@media (max-width: 1000px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-table {
+        font-size: 12px;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td {
+        padding: 8px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+    <h1>📊 Tableau de bord</h1>
+
+    <p class="dashboard-intro">
+        Vue d'ensemble de l'activité de MD Décor & Plafonds.
+    </p>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-title">Visiteurs</div>
+            <div class="stat-number">{{ total_visiteurs }}</div>
+            <div class="stat-detail">
+                🟢 {{ visiteurs_en_ligne }} actuellement actifs
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-title">Signalements</div>
+            <div class="stat-number">{{ total_signalements }}</div>
+            <div class="stat-detail">
+                {{ signalements_nouveaux }} nouveaux
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🖼️</div>
+            <div class="stat-title">Réalisations</div>
+            <div class="stat-number">{{ total_realisations }}</div>
+            <div class="stat-detail">
+                {{ realisations_publiees }} publiées
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔐</div>
+            <div class="stat-title">Sécurité</div>
+            <div class="stat-number">{{ evenements_securite }}</div>
+            <div class="stat-detail">
+                {{ visiteurs_bloques }} visiteur(s) bloqué(s)
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dashboard-section">
+        <h2>⚠️ Signalements récents</h2>
+
+        {% if signalements_recents %}
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>Motif</th>
+                    <th>Statut</th>
+                    <th>IP</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for signalement in signalements_recents %}
+                <tr>
+                    <td>{{ signalement.get_motif_display }}</td>
+
+                    <td>
+                        <span class="badge">
+                            {{ signalement.get_statut_display }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ signalement.adresse_ip|default:"Inconnue" }}
+                    </td>
+
+                    <td>
+                        {{ signalement.date_creation|date:"d/m/Y H:i" }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <p>Aucun signalement pour le moment.</p>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-section">
+        <h2>👥 Visiteurs récents</h2>
+
+        {% if visiteurs_recents %}
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>Statut</th>
+                    <th>IP</th>
+                    <th>Page</th>
+                    <th>Dernière visite</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for visiteur in visiteurs_recents %}
+                <tr>
+                    <td>
+                        {% if visiteur.bloque %}
+                            <span class="badge">🚫 Bloqué</span>
+                        {% elif visiteur.en_ligne %}
+                            <span class="badge">🟢 En ligne</span>
+                        {% else %}
+                            <span class="badge">⚪ Hors ligne</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ visiteur.adresse_ip|default:"Inconnue" }}
+                    </td>
+
+                    <td>
+                        {{ visiteur.page_actuelle|default:"-" }}
+                    </td>
+
+                    <td>
+                        {{ visiteur.derniere_visite|date:"d/m/Y H:i" }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+        <p>Aucun visiteur enregistré.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

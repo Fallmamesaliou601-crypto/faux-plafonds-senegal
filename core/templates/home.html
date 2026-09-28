@@ -181,12 +181,7 @@
             color: white;
             position: relative;
 
-            background:
-                linear-gradient(
-                    rgba(17, 24, 39, 0.67),
-                    rgba(17, 24, 39, 0.78)
-                ),
-                url("https://img.staticmb.com/mbimages/interiorDesignerCMS/decorPartner/1006/projectImage/20260209161941fcidcdip240.jpg.webp");
+            background-image: url("{% static 'images/hero-faux-plafond.png' %}");
 
             background-size: cover;
             background-position: center;
@@ -499,6 +494,19 @@
         .gallery-item:hover::after {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
+        }
+
+        .video-item {
+            position: relative;
+            background: #111;
+        }
+
+        .video-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 14px;
         }
 
 
@@ -1100,6 +1108,7 @@
 
     <section class="hero" id="accueil">
 
+
         <div class="hero-content fade-up">
 
             <h1>
@@ -1395,85 +1404,55 @@
 
             </div>
 
+          <div class="gallery">
 
-            <div class="gallery">
+    {% for realisation in realisations %}
 
-                <div
-                    class="gallery-item"
-                    onclick="openLightbox(0)"
+        {% if realisation.photo %}
+
+            <div
+                class="gallery-item"
+                onclick="openLightbox({{ forloop.counter0 }})"
+            >
+                <img
+                    src="{{ realisation.photo.url }}"
+                    alt="{{ realisation.titre }}"
+                    loading="lazy"
                 >
-                    <img
-                        src="https://img.staticmb.com/mbimages/interiorDesignerCMS/decorPartner/1006/projectImage/20260209161941fcidcdip240.jpg.webp"
-                        alt="Faux plafond moderne"
-                        loading="lazy"
-                    >
-                </div>
+            </div>
 
+        {% endif %}
 
-                <div
-                    class="gallery-item"
-                    onclick="openLightbox(1)"
+        {% if realisation.video %}
+
+            <div class="gallery-item video-item">
+
+                <video
+                    controls
+                    preload="metadata"
+                    playsinline
                 >
-                    <img
-                        src="https://gessoartemoderna.com.br/assets/portfolio-4-Da62VeWx.jpg"
-                        alt="Décoration plafond moderne"
-                        loading="lazy"
+                    <source
+                        src="{{ realisation.video.url }}"
+                        type="video/mp4"
                     >
-                </div>
-
-
-                <div
-                    class="gallery-item"
-                    onclick="openLightbox(2)"
-                >
-                    <img
-                        src="https://img.interiorcompany.com/interior/webproduct/776638705537812984870.png?aio=w-768%3B"
-                        alt="Plafond décoratif"
-                        loading="lazy"
-                    >
-                </div>
-
-
-                <div
-                    class="gallery-item"
-                    onclick="openLightbox(3)"
-                >
-                    <img
-                        src="https://img.interiorcompany.com/interior/webproduct/388638708207807155385.png?aio=w-768%3B"
-                        alt="Faux plafond avec éclairage"
-                        loading="lazy"
-                    >
-                </div>
-
-
-                <div
-                    class="gallery-item"
-                    onclick="openLightbox(4)"
-                >
-                    <img
-                        src="https://simpolo-web.s3.ap-south-1.amazonaws.com/uploads/media/blog/Modern-and-Minimalist-POP-Ceiling-Designs.png"
-                        alt="Design de plafond moderne"
-                        loading="lazy"
-                    >
-                </div>
-
-
-                <div
-                    class="gallery-item"
-                    onclick="openLightbox(5)"
-                >
-                    <img
-                        src="https://img.interiorcompany.com/interior/webproduct/776638705537812984870.png?aio=w-768%3B"
-                        alt="Décoration intérieure plafond"
-                        loading="lazy"
-                    >
-                </div>
+                    Votre navigateur ne prend pas en charge la vidéo.
+                </video>
 
             </div>
 
-        </div>
+        {% endif %}
 
-    </section>
+    {% empty %}
+
+        <p>
+            Aucune réalisation disponible pour le moment.
+        </p>
+
+    {% endfor %}
+
+</div>
+
 
 
     <!-- =========================
@@ -1595,10 +1574,37 @@
 
             <div class="quote-wrapper">
 
+                {% if message_devis %}
+                    <div
+                        style="
+                            margin-bottom:20px;
+                            padding:15px 18px;
+                            border-radius:10px;
+                            background:#e8f7ee;
+                            color:#146c43;
+                            border:1px solid #badbcc;
+                            font-weight:600;
+                        "
+                    >
+                        {{ message_devis }}
+                    </div>
+                {% endif %}
+
                 <form
                     class="quote-form"
+                    method="post"
+                    action=""
+                    enctype="multipart/form-data"
                     onsubmit="sendQuote(event)"
                 >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="hidden"
+                        name="formulaire"
+                        value="devis"
+                    >
 
                     <div class="form-group">
 
@@ -1609,6 +1615,7 @@
                         <input
                             type="text"
                             id="nom"
+                            name="nom"
                             placeholder="Votre nom"
                             required
                         >
@@ -1625,7 +1632,10 @@
                         <input
                             type="tel"
                             id="telephone"
-                            placeholder="Votre numéro"
+                            name="telephone"
+                            placeholder="Ex : 77 123 45 67"
+                            pattern="(?:\+221\s?)?7[05678][\s.-]?\d{3}[\s.-]?\d{2}[\s.-]?\d{2}"
+                            title="Entrez un numéro sénégalais valide, par exemple 77 123 45 67 ou +221 77 123 45 67."
                             required
                         >
 
@@ -1638,7 +1648,7 @@
                             Type de projet
                         </label>
 
-                        <select id="projet" required>
+                        <select id="projet" name="type_plafond" required>
 
                             <option value="">
                                 Sélectionnez un projet
@@ -1678,6 +1688,7 @@
                         <input
                             type="text"
                             id="ville"
+                            name="ville"
                             placeholder="Ex : Dakar"
                             required
                         >
@@ -1693,9 +1704,22 @@
 
                         <textarea
                             id="message"
+                            name="description"
                             placeholder="Décrivez votre projet, les dimensions approximatives, vos besoins, etc."
+                            minlength="10"
                             required
                         ></textarea>
+
+                        <label for="photo">
+                            Photo du projet (facultatif)
+                        </label>
+
+                        <input
+                            type="file"
+                            id="photo"
+                            name="photo"
+                            accept="image/*"
+                        >
 
                     </div>
 
@@ -1796,6 +1820,160 @@
         </div>
 
     </section>
+
+
+    <!-- =========================
+         SIGNALER UN PROBLÈME
+    ========================== -->
+
+    <section class="section section-light" id="signalement">
+
+        <div class="container">
+
+            <div class="section-title">
+
+                <span>ASSISTANCE</span>
+
+                <h2>Signaler un problème</h2>
+
+                <p>
+                    Vous avez rencontré un problème sur notre site ?
+                    Vous pouvez nous le signaler.
+                </p>
+
+            </div>
+
+            {% if message_signalement %}
+
+                <div style="
+                    max-width:700px;
+                    margin:0 auto 25px;
+                    padding:15px 20px;
+                    border-radius:10px;
+                    background:#e8f7ee;
+                    color:#176b3a;
+                    text-align:center;
+                    font-weight:600;
+                ">
+                    {{ message_signalement }}
+                </div>
+
+            {% endif %}
+
+            <form method="post"
+                  style="
+                    max-width:700px;
+                    margin:0 auto;
+                    background:white;
+                    padding:30px;
+                    border-radius:16px;
+                    box-shadow:0 10px 30px rgba(0,0,0,.08);
+                  ">
+
+                {% csrf_token %}
+
+                <input type="hidden" name="formulaire" value="signalement">
+
+                <div style="margin-bottom:20px;">
+
+                    <label for="motif"
+                           style="
+                               display:block;
+                               margin-bottom:8px;
+                               font-weight:600;
+                           ">
+                        Motif
+                    </label>
+
+                    <select
+                        id="motif"
+                        name="motif"
+                        required
+                        style="
+                            width:100%;
+                            padding:13px;
+                            border:1px solid #ddd;
+                            border-radius:8px;
+                            box-sizing:border-box;
+                        "
+                    >
+
+                        <option value="">
+                            Choisissez un motif
+                        </option>
+
+                        <option value="bug">
+                            Bug ou problème technique
+                        </option>
+
+                        <option value="abus">
+                            Abus ou comportement indésirable
+                        </option>
+
+                        <option value="securite">
+                            Problème de sécurité
+                        </option>
+
+                        <option value="autre">
+                            Autre
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div style="margin-bottom:20px;">
+
+                    <label for="message"
+                           style="
+                               display:block;
+                               margin-bottom:8px;
+                               font-weight:600;
+                           ">
+                        Votre message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="6"
+                        required
+                        maxlength="2000"
+                        placeholder="Décrivez le problème rencontré..."
+                        style="
+                            width:100%;
+                            padding:13px;
+                            border:1px solid #ddd;
+                            border-radius:8px;
+                            resize:vertical;
+                            box-sizing:border-box;
+                        "
+                    ></textarea>
+
+                </div>
+
+                <button
+                    type="submit"
+                    style="
+                        width:100%;
+                        padding:14px;
+                        border:0;
+                        border-radius:8px;
+                        background:#111827;
+                        color:white;
+                        font-weight:700;
+                        cursor:pointer;
+                    "
+                >
+                    Envoyer le signalement
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
 
 
     <!-- =========================
@@ -1906,37 +2084,35 @@
            GALERIE / LIGHTBOX
         ========================== */
 
-        const galleryImages = [
-
-            "https://img.staticmb.com/mbimages/interiorDesignerCMS/decorPartner/1006/projectImage/20260209161941fcidcdip240.jpg.webp",
-
-            "https://gessoartemoderna.com.br/assets/portfolio-4-Da62VeWx.jpg",
-
-            "https://img.interiorcompany.com/interior/webproduct/776638705537812984870.png?aio=w-768%3B",
-
-            "https://img.interiorcompany.com/interior/webproduct/388638708207807155385.png?aio=w-768%3B",
-
-            "https://simpolo-web.s3.ap-south-1.amazonaws.com/uploads/media/blog/Modern-and-Minimalist-POP-Ceiling-Designs.png",
-
-            "https://img.interiorcompany.com/interior/webproduct/776638705537812984870.png?aio=w-768%3B"
-
-        ];
-
-
+        let galleryImages = [];
         let currentImage = 0;
+
+
+        function updateGalleryImages() {
+
+            galleryImages = Array.from(
+                document.querySelectorAll(".gallery-item img")
+            ).map(function(img) {
+                return img.src;
+            });
+
+        }
 
 
         function openLightbox(index) {
 
+            updateGalleryImages();
+
             currentImage = index;
 
-            document.getElementById(
-                "lightboxImage"
-            ).src = galleryImages[currentImage];
+            if (!galleryImages.length) {
+                return;
+            }
 
-            document.getElementById(
-                "lightbox"
-            ).classList.add("active");
+            document.getElementById("lightboxImage").src =
+                galleryImages[currentImage];
+
+            document.getElementById("lightbox").classList.add("active");
 
             document.body.style.overflow = "hidden";
 
@@ -1945,9 +2121,7 @@
 
         function closeLightbox() {
 
-            document.getElementById(
-                "lightbox"
-            ).classList.remove("active");
+            document.getElementById("lightbox").classList.remove("active");
 
             document.body.style.overflow = "auto";
 
@@ -1956,35 +2130,36 @@
 
         function nextImage() {
 
+            if (!galleryImages.length) {
+                return;
+            }
+
             currentImage++;
 
-            if (
-                currentImage >= galleryImages.length
-            ) {
+            if (currentImage >= galleryImages.length) {
                 currentImage = 0;
             }
 
-            document.getElementById(
-                "lightboxImage"
-            ).src = galleryImages[currentImage];
+            document.getElementById("lightboxImage").src =
+                galleryImages[currentImage];
 
         }
 
 
         function previousImage() {
 
+            if (!galleryImages.length) {
+                return;
+            }
+
             currentImage--;
 
             if (currentImage < 0) {
-
-                currentImage =
-                    galleryImages.length - 1;
-
+                currentImage = galleryImages.length - 1;
             }
 
-            document.getElementById(
-                "lightboxImage"
-            ).src = galleryImages[currentImage];
+            document.getElementById("lightboxImage").src =
+                galleryImages[currentImage];
 
         }
 
@@ -2047,12 +2222,31 @@
 
             event.preventDefault();
 
+            const form = event.target;
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
 
             const nom =
                 document.getElementById("nom").value;
 
             const telephone =
-                document.getElementById("telephone").value;
+                document.getElementById("telephone").value.trim();
+
+            const telephoneNettoye = telephone.replace(/[\s.-]/g, "");
+
+            const telephoneValide =
+                /^(?:\+221)?7[05678]\d{7}$/.test(telephoneNettoye);
+
+            if (!telephoneValide) {
+                alert(
+                    "Veuillez entrer un numéro sénégalais valide, par exemple 77 123 45 67."
+                );
+                document.getElementById("telephone").focus();
+                return;
+            }
 
             const projet =
                 document.getElementById("projet").value;
@@ -2100,8 +2294,10 @@
                 "_blank"
             );
 
-        }
 
+            form.submit();
+
+        }
 
         /* =========================
            ANNÉE AUTOMATIQUE
