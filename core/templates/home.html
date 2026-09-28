@@ -1421,11 +1421,27 @@
                 class="gallery-item"
                 onclick="openLightbox({{ forloop.counter0 }})"
             >
-                <img
-                    src="{{ realisation.photo.url }}"
-                    alt="{{ realisation.titre }}"
-                    loading="lazy"
-                >
+
+                {% if realisation.id == 6 %}
+                    <img
+                        src="{% static 'images/realisations/hero-faux-plafond.png' %}"
+                        alt="{{ realisation.titre }}"
+                        loading="lazy"
+                    >
+                {% elif realisation.id == 5 %}
+                    <img
+                        src="{% static 'images/realisations/ChatGPT_Image_27_sept._2026_11_02_43.png' %}"
+                        alt="{{ realisation.titre }}"
+                        loading="lazy"
+                    >
+                {% elif realisation.id == 3 %}
+                    <img
+                        src="{% static 'images/realisations/ChatGPT_Image_27_sept._2026_11_01_16.png' %}"
+                        alt="{{ realisation.titre }}"
+                        loading="lazy"
+                    >
+                {% endif %}
+
             </div>
 
         {% endif %}
@@ -1440,7 +1456,7 @@
                     playsinline
                 >
                     <source
-                        src="{{ realisation.video.url }}"
+                        src="{% static 'videos/realisations/WhatsApp_Video_2026-09-27_at_21_joyEtXI.45.34.mp4' %}"
                         type="video/mp4"
                     >
                     Votre navigateur ne prend pas en charge la vidéo.
@@ -1461,8 +1477,7 @@
 </div>
 
 
-
-    <!-- =========================
+<!-- =========================
          CTA
     ========================== -->
 
